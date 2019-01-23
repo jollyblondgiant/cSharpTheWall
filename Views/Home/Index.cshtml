@@ -1,0 +1,32 @@
+@using Microsoft.AspNetCore.Http
+@using TheWall.Models
+@model Post
+@{
+    if(Context.Session.GetString("UserName")== null)
+    {
+        <partial name="LoginPartial"/>
+        if(Context.Session.GetString("SeeReg") != null)
+        {
+            <h1>@Context.Session.GetString("SeeReg")</h1>
+            <partial name="RegisterPartial"/>
+        }
+        
+    }
+    else
+    {
+        <h1>Welcome, @Context.Session.GetString("UserName")! </h1>
+        <a href="logout"><button>Log Out</button></a>
+         <form asp-action="NewPost" asp-controller="Home" method="POST">
+            <label asp-for="PostText"></label>
+            <textarea asp-for="PostText"></textarea>
+
+
+
+            <span validation-for="PostText"></span>
+            <input type="submit" value="Post a Message">
+        </form>
+        
+            <partial name="PostPartial" view-data="ViewData"/>
+        
+    }
+}

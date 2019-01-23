@@ -1,0 +1,17 @@
+@using TheWall.Models;
+@model Comment
+
+
+@{
+    foreach(var post in ViewBag.Posts)
+    {
+        <h4>@post.ID</h4>
+        foreach(var comment in post.Comments)
+        {   
+            <h4>@comment.Post.ID | @comment.PostID | @post.ID</h4>
+            
+
+        }
+       
+    }
+}

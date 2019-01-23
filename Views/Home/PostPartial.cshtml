@@ -1,0 +1,45 @@
+@using Microsoft.AspNetCore.Http
+
+@using TheWall.Models;
+@model Comment
+
+@{
+    foreach(var post in @ViewBag.Posts)
+    {
+        <h2>@post.User.FirstName @post.User.LastName @post.CreatedAt.ToString("MMMM, dddd yyyy")</h2>
+        <h3>@post.PostText</h3>
+        if(post.UserID == ViewBag.seshUser)
+            {
+                if(DateTime.Now.Minute - post.CreatedAt.Minute < 30)
+                {
+                    <a href="deletePost/@post.ID"><button>Delete Post</button></a>
+
+                }
+            }
+        foreach(var comment in post.Comments)
+        {
+            <h5>@comment.User.FirstName @comment.User.LastName @comment.CreatedAt.ToString("MMMM, dddd yyyy")</h5>
+            <h4>@comment.Text</h4>
+            
+            if(comment.UserID == ViewBag.seshUser)
+            {
+                if(DateTime.Now.Minute - comment.CreatedAt.Minute < 30)
+                {
+                    <a href="deleteComment/@comment.ID"><button>Delete Comment</button></a>
+
+                }
+            }
+        }
+        
+        <form asp-action="AddComment" asp-controller="Home" method="POST">
+                <span asp-validation-for="Text"></span>
+                <label asp-for="Text"></label>
+                <input asp-for="Text">
+                
+                <input type="hidden" asp-for="PostID" value="@post.ID">
+
+
+            <input type="submit" value="post comment">
+        </form>
+    }
+}
